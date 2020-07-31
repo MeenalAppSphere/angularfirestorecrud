@@ -1,0 +1,37 @@
+<a routerLink="/">Add Student</a>
+<div>
+	<div class="col-xs-12 col-md-6 col-md-offset-3">
+		<p *ngIf="studentModel.length<1 ||!dataPresent ,else elseBlock" class="text-danger float-center">No Records
+			Available Currently!</p>
+	</div>
+	<ng-template #elseBlock>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Index</th>
+          <th scope="col">Enrollment</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Age</th>
+					<th scope="col">Address</th>
+					<th scope="col">Delete Record</th>
+					<th scope="col">Update Record</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let stu of studentModel let i=index">
+					<th scope="row">{{i+1}}</th>
+          <td>{{stu.id}}</td>
+					<td>{{stu.fname}}</td>
+					<td>{{stu.lname}}</td>
+					<td>{{stu.age}}</td>
+					<td>{{stu.address}}</td>
+					<td><button class="btn btn-secondary" (click)="delete(stu.id)">Delete</button></td>
+					<td *ngIf="!dataUpdate else elseBlock">
+						<button class="btn btn-secondary" (click)="edit(stu)">Edit</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</ng-template>
+</div>
+<router-outlet></router-outlet>
