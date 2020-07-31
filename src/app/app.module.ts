@@ -13,7 +13,9 @@ import { StudentComponent } from "./student/student.component";
 import { StudentlistComponent } from "./studentlist/studentlist.component";
 //import { StudentService } from "./student/student.service";
 import { StudentService } from "./student/student.service";
+import {CountriesService} from "./student/countries.service";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from "ngx-toastr";
 
@@ -33,7 +35,8 @@ const route: Routes = [
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    HttpClientModule
   ],
   declarations: [
     AppComponent,
@@ -42,6 +45,6 @@ const route: Routes = [
     StudentlistComponent
   ],
   bootstrap: [AppComponent],
-  providers: [StudentService]
+  providers: [StudentService,CountriesService]
 })
 export class AppModule {}

@@ -1,7 +1,11 @@
+import { FormGroup, FormBuilder } from "@angular/forms";
+
 export interface StudentModel{
   id:string;
   fname:string;
   lname:string;
   age:number;
-  address:string;
+  country:string;
+  state:string;
+  city:string;
 }
