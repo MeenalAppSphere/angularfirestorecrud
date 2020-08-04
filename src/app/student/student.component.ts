@@ -103,7 +103,7 @@ export class StudentComponent implements OnInit {
 
   updateStudent(studentModel) {
     let model: StudentModel = {
-      id:this.studentId,
+      id : this.studentId,
       fname: this.studentForm.get("fname").value,
       lname: this.studentForm.get("lname").value,
       age: this.studentForm.get("age").value,
@@ -122,7 +122,7 @@ export class StudentComponent implements OnInit {
         cityId: this.studentForm.get("city").value
       }
     };
-    this.studentService.updateStudentService(studentModel);
+    this.studentService.updateStudentService(model);
     this.toastr.success("Data Updated");
     this.studentForm.reset();
   }
