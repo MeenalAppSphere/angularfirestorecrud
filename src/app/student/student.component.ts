@@ -49,19 +49,48 @@ export class StudentComponent implements OnInit {
     //console.log(this.studentId);
     if (this.studentId) {
       this.studentService.getStudentIdData(this.studentId).subscribe(doc => {
-        this.studentForm.patchValue(doc.data());
+        this.studentForm.patchValue({
+          fname:doc.data().fname,
+          lname:doc.data().lname,
+          age:doc.data().age,
+          country:doc.data().country.countryId,
+          state:doc.data().state.stateId,
+          city:doc.data().city.cityId
+
+        });
+        this.onChangeCountry({target:{value:doc.data().country.countryId}});
+        this.onChangeState({target:{value:doc.data().state.stateId}});
         this.updateData = true;
       });
     }
     this.getCountries();
   }
 
-  addStudent(studentModel: StudentModel) {
-    this.studentService.addStudentService(studentModel).then(res => {
+  addStudent(studentModel) {
+    let model: StudentModel = {
+      fname: this.studentForm.get("fname").value,
+      lname: this.studentForm.get("lname").value,
+      age: this.studentForm.get("age").value,
+      country: {
+        countryName: this.countryInfo[this.studentForm.get("country").value]
+          .CountryName,
+        countryId: this.studentForm.get("country").value
+      },
+      state: {
+        stateName: this.stateInfo[this.studentForm.get("state").value]
+          .StateName,
+        stateId: this.studentForm.get("state").value
+      },
+      city: {
+        cityName: this.cityInfo[this.studentForm.get("city").value],
+        cityId: this.studentForm.get("city").value
+      }
+    };
+    this.studentService.addStudentService(model).then(res => {
       this.toastr.success("Student Record Added");
       this.studentForm.reset();
     });
-    console.log(studentModel);
+    console.log(model);
   }
 
   getStudent() {
@@ -74,7 +103,27 @@ export class StudentComponent implements OnInit {
   }
 
   updateStudent(studentModel: StudentModel) {
-    studentModel.id = this.studentId;
+    //studentModel.id = this.studentId;
+    let model: StudentModel = {
+      id:this.studentId,
+      fname: this.studentForm.get("fname").value,
+      lname: this.studentForm.get("lname").value,
+      age: this.studentForm.get("age").value,
+      country: {
+        countryName: this.countryInfo[this.studentForm.get("country").value]
+          .CountryName,
+        countryId: this.studentForm.get("country").value
+      },
+      state: {
+        stateName: this.stateInfo[this.studentForm.get("state").value]
+          .StateName,
+        stateId: this.studentForm.get("state").value
+      },
+      city: {
+        cityName: this.cityInfo[this.studentForm.get("city").value],
+        cityId: this.studentForm.get("city").value
+      }
+    };
     this.studentService.updateStudentService(studentModel);
     this.toastr.success("Data Updated");
     this.studentForm.reset();
@@ -91,22 +140,16 @@ export class StudentComponent implements OnInit {
 
   onChangeCountry(countryValue) {
     countryValue = parseInt(countryValue.target.value);
-    this.studentForm
-      .get("country")
-      .patchValue(this.countryInfo[countryValue].CountryName);
     this.stateInfo = this.countryInfo[countryValue].States;
     this.cityInfo = this.stateInfo[0].Cities;
   }
 
   onChangeState(stateValue) {
     stateValue = parseInt(stateValue.target.value);
-    this.studentForm.get("state").patchValue(this.stateInfo[stateValue].StateName);
     this.cityInfo = this.stateInfo[stateValue].Cities;
   }
 
-  OnChangeCity(cityValue)
-  {
-    cityValue =parseInt(cityValue.target.value);
-    this.studentForm.get("city").patchValue(this.cityInfo[cityValue]);
+  OnChangeCity(cityValue) {
+    cityValue = parseInt(cityValue.target.value);
   }
 }
