@@ -56,7 +56,6 @@ export class StudentComponent implements OnInit {
           country:doc.data().country.countryId,
           state:doc.data().state.stateId,
           city:doc.data().city.cityId
-
         });
         this.onChangeCountry({target:{value:doc.data().country.countryId}});
         this.onChangeState({target:{value:doc.data().state.stateId}});
@@ -102,8 +101,7 @@ export class StudentComponent implements OnInit {
     this.updateData = false;
   }
 
-  updateStudent(studentModel: StudentModel) {
-    //studentModel.id = this.studentId;
+  updateStudent(studentModel) {
     let model: StudentModel = {
       id:this.studentId,
       fname: this.studentForm.get("fname").value,
