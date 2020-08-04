@@ -41,7 +41,7 @@
   <ng-template #elseBlock>
     <button (click)="updateStudent(studentForm.value)"type="button" class="btn btn-primary">Edit Student</button></ng-template> 
   <button class="btn btn-primary" style="margin:5px" (click)="getStudent()" type="button">Show Record</button> 
-  <button class="btn btn-primary" style="margin:5px" (click)="resetData()" type="button">Reset</button> 
+  <button class="btn btn-primary" [disabled]="!myForm.form.valid" style="margin:5px" (click)="resetData()" type="button">Reset</button> 
   
   
 </form>
