@@ -17,21 +17,21 @@
     <h6>Address</h6>
     <div class="form-group">
       <label>Select Country</label>
-      <select class="form-control"  (change)="onChangeCountry($event)">
+      <select class="form-control" formControlName="country"  (change)="onChangeCountry($event)">
         <option *ngIf="countryInfo.length<1" value="-1">--Select Country--</option>
         <option *ngFor="let country of countryInfo; let i = index" value="{{i}}">{{country.CountryName}}</option>
       </select>  
     </div>
     <div class="form-group">
         <label>Select State</label>
-        <select class="form-control" (change)="onChangeState($event)">
+        <select class="form-control" formControlName="state" (change)="onChangeState($event)">
           <option *ngIf="stateInfo.length<1" value="-1">--Select State--</option>
           <option *ngFor="let state of stateInfo; let j = index" value="{{j}}">{{state.StateName}}</option>
         </select>  
     </div>
     <div class="form-group">
         <label>Select City</label>
-        <select class="form-control" (change)="OnChangeCity($event)" >
+        <select class="form-control" formControlName="city" (change)="OnChangeCity($event)" >
             <option *ngIf="cityInfo.length<1" value="-1">--Select City--</option>
           <option *ngFor="let city of cityInfo; let k = index" value="{{k}}">{{city}}</option>
         </select>  

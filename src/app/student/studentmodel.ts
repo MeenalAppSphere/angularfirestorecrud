@@ -5,7 +5,16 @@ export interface StudentModel{
   fname:string;
   lname:string;
   age:number;
-  country:string;
-  state:string;
-  city:string;
+  country:{
+    countryName:string,
+    countryId:number
+  };
+  state:{
+    stateName:string,
+    stateId:number
+  };
+  city:{
+    cityName:string,
+    cityId:number
+  };
 }
