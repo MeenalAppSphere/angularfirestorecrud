@@ -49,16 +49,22 @@ export class StudentComponent implements OnInit {
     //console.log(this.studentId);
     if (this.studentId) {
       this.studentService.getStudentIdData(this.studentId).subscribe(doc => {
+        this.onChangeCountry({
+          target: { value: doc.data().country.countryId }
+        },true);
+        this.onChangeState({target:{value:doc.data().state.stateId}},true);
         this.studentForm.patchValue({
-          fname:doc.data().fname,
-          lname:doc.data().lname,
-          age:doc.data().age,
-          country:doc.data().country.countryId,
-          state:doc.data().state.stateId,
-          city:doc.data().city.cityId
+          fname: doc.data().fname,
+          lname: doc.data().lname,
+          age: doc.data().age,
+          country: doc.data().country.countryId,
+          state: doc.data().state.stateId,
+          city: doc.data().city.cityId
         });
-        this.onChangeCountry({target:{value:doc.data().country.countryId}});
-        //this.onChangeState({target:{value:doc.data().state.stateId}});
+       /* this.onChangeCountry({
+          target: { value: doc.data().country.countryId }
+        });
+        this.onChangeState({target:{value:doc.data().state.stateId}});*/
         this.updateData = true;
       });
     }
@@ -103,7 +109,7 @@ export class StudentComponent implements OnInit {
 
   updateStudent(studentModel) {
     let model: StudentModel = {
-      id : this.studentId,
+      id: this.studentId,
       fname: this.studentForm.get("fname").value,
       lname: this.studentForm.get("lname").value,
       age: this.studentForm.get("age").value,
@@ -137,47 +143,47 @@ export class StudentComponent implements OnInit {
     );
   }
 
-  onChangeCountry(countryValue) {
+  onChangeCountry(countryValue, isEdit: boolean = false) {
     countryValue = parseInt(countryValue.target.value);
-    if(countryValue === -1)
-    {
+    if (countryValue === -1) {
       this.studentForm.patchValue({
         state: -1,
         city: -1
       });
-      this.stateInfo=[];
-      this.cityInfo=[];
+      this.stateInfo = [];
+      this.cityInfo = [];
       return;
     }
     this.stateInfo = this.countryInfo[countryValue].States;
     this.cityInfo = this.stateInfo[0].Cities;
-    setTimeout(()=>{
-      this.studentForm.patchValue({
-        state:0,
-        city:0
-      });
-    },100);
+    if (!isEdit) {
+      setTimeout(() => {
+        this.studentForm.patchValue({
+          state: 0,
+          city: 0
+        });
+      }, 100);
+    }
   }
 
-  onChangeState(stateValue) {
+  onChangeState(stateValue, isEdit: boolean = false) {
     stateValue = parseInt(stateValue.target.value);
-    if(stateValue === -1)
-    {
+    if (stateValue === -1) {
       this.studentForm.patchValue({
         city: -1
       });
-      this.cityInfo=[];
+      this.cityInfo = [];
       return;
     }
     this.cityInfo = this.stateInfo[stateValue].Cities;
-    setTimeout(()=>
-    {
-    this.studentForm.patchValue({
-      city:0,
-    });
-  },100);
+    if (!isEdit) {
+      setTimeout(() => {
+        this.studentForm.patchValue({
+          city: 0
+        });
+      }, 100);
+    }
   }
-
   OnChangeCity(cityValue) {
     cityValue = parseInt(cityValue.target.value);
   }
