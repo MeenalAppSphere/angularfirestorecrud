@@ -39,9 +39,9 @@ export class StudentComponent implements OnInit {
     fname: ["", Validators.required],
     lname: ["", Validators.required],
     age: ["", Validators.required],
-    country: ["", Validators.required],
-    state: ["", Validators.required],
-    city: ["", Validators.required]
+    country: [-1, Validators.required],
+    state: [-1, Validators.required],
+    city: [-1, Validators.required]
   });
 
   ngOnInit() {
@@ -58,7 +58,7 @@ export class StudentComponent implements OnInit {
           city:doc.data().city.cityId
         });
         this.onChangeCountry({target:{value:doc.data().country.countryId}});
-        this.onChangeState({target:{value:doc.data().state.stateId}});
+        //this.onChangeState({target:{value:doc.data().state.stateId}});
         this.updateData = true;
       });
     }
@@ -126,6 +126,7 @@ export class StudentComponent implements OnInit {
     this.toastr.success("Data Updated");
     this.studentForm.reset();
   }
+
   getCountries() {
     this.countriesService.allCountries().subscribe(
       data2 => {
@@ -138,13 +139,43 @@ export class StudentComponent implements OnInit {
 
   onChangeCountry(countryValue) {
     countryValue = parseInt(countryValue.target.value);
+    if(countryValue === -1)
+    {
+      this.studentForm.patchValue({
+        state: -1,
+        city: -1
+      });
+      this.stateInfo=[];
+      this.cityInfo=[];
+      return;
+    }
     this.stateInfo = this.countryInfo[countryValue].States;
     this.cityInfo = this.stateInfo[0].Cities;
+    setTimeout(()=>{
+      this.studentForm.patchValue({
+        state:0,
+        city:0
+      });
+    },100);
   }
 
   onChangeState(stateValue) {
     stateValue = parseInt(stateValue.target.value);
+    if(stateValue === -1)
+    {
+      this.studentForm.patchValue({
+        city: -1
+      });
+      this.cityInfo=[];
+      return;
+    }
     this.cityInfo = this.stateInfo[stateValue].Cities;
+    setTimeout(()=>
+    {
+    this.studentForm.patchValue({
+      city:0,
+    });
+  },100);
   }
 
   OnChangeCity(cityValue) {
