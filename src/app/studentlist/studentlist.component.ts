@@ -52,7 +52,6 @@ export class StudentlistComponent implements OnInit {
   edit(studentModel:StudentModel) {
     this.route.navigate(["/student", studentModel.id]);
     //this.studentService.getStudentIdData(studentModel);
-    //this.dataUpdate
-    
+    //this.dataUpdate 
   }
 }
